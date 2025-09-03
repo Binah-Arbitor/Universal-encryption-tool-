@@ -1,0 +1,68 @@
+name: Build Universal Encryption Tool
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential g++ make
+    
+    - name: Build the project
+      run: |
+        make clean
+        make
+    
+    - name: Run tests
+      run: |
+        make run-tests
+    
+    - name: Verify build artifacts
+      run: |
+        ls -la libencryption.a
+        file libencryption.a
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: encryption-library
+        path: libencryption.a
+        retention-days: 30
+
+  build-multiple-compilers:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [g++, clang++]
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential g++ clang make
+    
+    - name: Build with ${{ matrix.compiler }}
+      run: |
+        make clean
+        CXX=${{ matrix.compiler }} make
+    
+    - name: Test with ${{ matrix.compiler }}
+      run: |
+        CXX=${{ matrix.compiler }} make run-tests
+    
+    - name: Verify build with ${{ matrix.compiler }}
+      run: |
+        ls -la libencryption.a
+        echo "Successfully built and tested with ${{ matrix.compiler }}"
