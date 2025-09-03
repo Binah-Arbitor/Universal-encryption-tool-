@@ -1,0 +1,2 @@
+/usr/bin/ar qc libencryption_core.a CMakeFiles/encryption_core.dir/bits/bitoperation.cpp.o CMakeFiles/encryption_core.dir/preprocess/preprocessing.cpp.o
+/usr/bin/ranlib libencryption_core.a

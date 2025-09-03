@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wall -Wextra -O2 -Wl,--dependency-file=CMakeFiles/encryption_tool.dir/link.d CMakeFiles/encryption_tool.dir/main.cpp.o -o encryption_tool  libencryption_core.a
