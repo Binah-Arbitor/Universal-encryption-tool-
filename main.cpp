@@ -9,6 +9,8 @@
 
 #include "bitoperation.hpp"
 #include "preprocessing.hpp"
+#include "cipher.hpp"
+#include "aes.hpp"
 
 // Progress callback function type
 using ProgressCallback = std::function<void(double percentage, const std::string& message)>;
@@ -32,6 +34,66 @@ public:
             if (percentage >= 100.0) {
                 std::cout << std::endl;
             }
+        }
+    }
+    
+    void testAESEncryption() {
+        std::cout << "\n=== Testing AES Encryption ===" << std::endl;
+        
+        std::string plaintext = "Hello, AES World! This is a test message for AES encryption.";
+        std::cout << "Original: " << plaintext << std::endl;
+        
+        // Test AES-128 CBC
+        try {
+            auto aes = CipherFactory::createAES(CipherMode::CBC);
+            
+            // Generate 128-bit key and IV
+            std::vector<uint8_t> key = {
+                0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6,
+                0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c
+            };
+            
+            std::vector<uint8_t> iv = {
+                0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+                0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f
+            };
+            
+            auto data = data_to_bytes(plaintext);
+            
+            // Encrypt
+            std::cout << "\nEncrypting with AES-128-CBC..." << std::endl;
+            auto encrypted = aes->encrypt(data, key, iv, [this](double progress, const std::string& msg) {
+                if (verbose) {
+                    this->showProgress(progress, msg);
+                }
+            });
+            
+            std::cout << "Encrypted (" << encrypted.size() << " bytes): ";
+            for (size_t i = 0; i < std::min(encrypted.size(), size_t(32)); i++) {
+                std::cout << std::hex << std::setw(2) << std::setfill('0') << (int)encrypted[i];
+            }
+            if (encrypted.size() > 32) std::cout << "...";
+            std::cout << std::dec << std::endl;
+            
+            // Decrypt
+            std::cout << "\nDecrypting..." << std::endl;
+            auto decrypted = aes->decrypt(encrypted, key, iv, [this](double progress, const std::string& msg) {
+                if (verbose) {
+                    this->showProgress(progress, msg);
+                }
+            });
+            
+            std::string result = bytes_to_data(decrypted);
+            std::cout << "Decrypted: " << result << std::endl;
+            
+            if (result == plaintext) {
+                std::cout << "✓ AES encryption/decryption successful!" << std::endl;
+            } else {
+                std::cout << "✗ AES encryption/decryption failed!" << std::endl;
+            }
+            
+        } catch (const std::exception& e) {
+            std::cout << "AES test failed: " << e.what() << std::endl;
         }
     }
     
@@ -89,8 +151,8 @@ public:
         std::cout << "\n=== Universal Encryption Tool ===" << std::endl;
         std::cout << "1. Test Basic Operations" << std::endl;
         std::cout << "2. XOR Cipher with Repeating Key" << std::endl;
-        std::cout << "3. File Encryption (Coming Soon)" << std::endl;
-        std::cout << "4. AES Encryption (Coming Soon)" << std::endl;
+        std::cout << "3. Test AES Encryption" << std::endl;
+        std::cout << "4. File Encryption (Coming Soon)" << std::endl;
         std::cout << "5. Settings" << std::endl;
         std::cout << "6. Exit" << std::endl;
         std::cout << "Choose an option: ";
@@ -153,11 +215,11 @@ int main() {
             }
             
             case 3:
-                std::cout << "File encryption will be implemented with AES and other algorithms." << std::endl;
+                tool.testAESEncryption();
                 break;
                 
             case 4:
-                std::cout << "AES encryption will be implemented with multithreading support." << std::endl;
+                std::cout << "File encryption will be implemented with various algorithms and multithreading." << std::endl;
                 break;
                 
             case 5: {

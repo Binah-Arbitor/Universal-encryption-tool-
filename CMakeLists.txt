@@ -20,6 +20,9 @@ find_package(Threads REQUIRED)
 set(SOURCES
     bits/bitoperation.cpp
     preprocess/preprocessing.cpp
+    crypto/cipher.cpp
+    crypto/aes.cpp
+    crypto/threadpool.cpp
 )
 
 # Create library

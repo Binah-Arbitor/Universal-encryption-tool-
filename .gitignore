@@ -1,0 +1,43 @@
+# Build directories
+build/
+cmake-build-*/
+*.out
+*.o
+*.a
+*.so
+*.dylib
+*.dll
+
+# IDE files
+.vscode/
+.idea/
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.tmp
+*.pdb
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+temp/
+.temp/

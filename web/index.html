@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Encryption Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-nav">
+                <div class="header-logo">
+                    <svg height="32" viewBox="0 0 16 16" version="1.1" width="32" fill="#ffffff">
+                        <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                    </svg>
+                    <span class="header-title">Universal Encryption Tool</span>
+                </div>
+                <nav class="header-menu">
+                    <a href="#encrypt" class="nav-link">Encrypt</a>
+                    <a href="#decrypt" class="nav-link">Decrypt</a>
+                    <a href="#algorithms" class="nav-link">Algorithms</a>
+                    <a href="#settings" class="nav-link">Settings</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <div class="repo-header">
+                <h1 class="repo-title">
+                    <svg height="16" viewBox="0 0 16 16" version="1.1" width="16" fill="#7d8590">
+                        <path fill-rule="evenodd" d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"></path>
+                    </svg>
+                    Encryption Tools
+                </h1>
+                <p class="repo-description">Professional-grade encryption with multithreading support and progress tracking</p>
+            </div>
+
+            <div class="tab-container">
+                <div class="tab-nav">
+                    <button class="tab-btn active" data-tab="encrypt">🔒 Encrypt</button>
+                    <button class="tab-btn" data-tab="decrypt">🔓 Decrypt</button>
+                    <button class="tab-btn" data-tab="file">📁 File Operations</button>
+                    <button class="tab-btn" data-tab="bulk">⚡ Bulk Processing</button>
+                </div>
+
+                <div class="tab-content">
+                    <!-- Encrypt Tab -->
+                    <div id="encrypt" class="tab-pane active">
+                        <div class="form-section">
+                            <h3>Encrypt Data</h3>
+                            <div class="form-group">
+                                <label for="encrypt-algorithm">Algorithm</label>
+                                <select id="encrypt-algorithm" class="form-select">
+                                    <option value="aes-cbc">AES-128-CBC</option>
+                                    <option value="aes-ecb">AES-128-ECB</option>
+                                    <option value="aes-ctr">AES-128-CTR</option>
+                                    <option value="xor">XOR Cipher</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="encrypt-key">Encryption Key</label>
+                                <input type="text" id="encrypt-key" class="form-input" placeholder="Enter encryption key or generate">
+                                <button id="generate-key" class="btn btn-secondary">Generate Random Key</button>
+                            </div>
+                            <div class="form-group">
+                                <label for="encrypt-data">Data to Encrypt</label>
+                                <textarea id="encrypt-data" class="form-textarea" rows="6" placeholder="Enter text to encrypt..."></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="use-multithreading" checked> 
+                                    Enable Multithreading (for large data)
+                                </label>
+                            </div>
+                            <button id="encrypt-btn" class="btn btn-primary">
+                                <span class="btn-icon">🔒</span>
+                                Encrypt Data
+                            </button>
+                        </div>
+
+                        <div id="encrypt-result" class="result-section" style="display: none;">
+                            <h4>Encryption Result</h4>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div id="encrypt-progress" class="progress-fill"></div>
+                                </div>
+                                <span id="encrypt-progress-text">Ready</span>
+                            </div>
+                            <div class="result-data">
+                                <textarea id="encrypted-output" class="form-textarea" rows="8" readonly></textarea>
+                                <button id="copy-encrypted" class="btn btn-secondary">Copy to Clipboard</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Decrypt Tab -->
+                    <div id="decrypt" class="tab-pane">
+                        <div class="form-section">
+                            <h3>Decrypt Data</h3>
+                            <div class="form-group">
+                                <label for="decrypt-algorithm">Algorithm</label>
+                                <select id="decrypt-algorithm" class="form-select">
+                                    <option value="aes-cbc">AES-128-CBC</option>
+                                    <option value="aes-ecb">AES-128-ECB</option>
+                                    <option value="aes-ctr">AES-128-CTR</option>
+                                    <option value="xor">XOR Cipher</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="decrypt-key">Decryption Key</label>
+                                <input type="text" id="decrypt-key" class="form-input" placeholder="Enter decryption key">
+                            </div>
+                            <div class="form-group">
+                                <label for="decrypt-data">Encrypted Data (Hex)</label>
+                                <textarea id="decrypt-data" class="form-textarea" rows="6" placeholder="Enter hex-encoded encrypted data..."></textarea>
+                            </div>
+                            <button id="decrypt-btn" class="btn btn-primary">
+                                <span class="btn-icon">🔓</span>
+                                Decrypt Data
+                            </button>
+                        </div>
+
+                        <div id="decrypt-result" class="result-section" style="display: none;">
+                            <h4>Decryption Result</h4>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div id="decrypt-progress" class="progress-fill"></div>
+                                </div>
+                                <span id="decrypt-progress-text">Ready</span>
+                            </div>
+                            <div class="result-data">
+                                <textarea id="decrypted-output" class="form-textarea" rows="8" readonly></textarea>
+                                <button id="copy-decrypted" class="btn btn-secondary">Copy to Clipboard</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- File Operations Tab -->
+                    <div id="file" class="tab-pane">
+                        <div class="form-section">
+                            <h3>File Encryption/Decryption</h3>
+                            <div class="file-drop-zone" id="file-drop-zone">
+                                <div class="drop-content">
+                                    <svg height="64" viewBox="0 0 16 16" version="1.1" width="64" fill="#7d8590">
+                                        <path fill-rule="evenodd" d="M3.75 2a.75.75 0 01.75.75v8.5a.75.75 0 01-1.5 0V3.5L1.75 5.25a.75.75 0 01-1.5 0v-2.5A.75.75 0 01.75 2h3zm4.5 0a.75.75 0 01.75.75v8.5a.75.75 0 01-1.5 0V3.5L6.25 5.25a.75.75 0 01-1.5 0v-2.5A.75.75 0 015.25 2h3zm4.5 0a.75.75 0 01.75.75v8.5a.75.75 0 01-1.5 0V3.5l-1.25 1.75a.75.75 0 01-1.5 0v-2.5A.75.75 0 019.75 2h3z"></path>
+                                    </svg>
+                                    <p>Drop files here to encrypt/decrypt</p>
+                                    <p class="drop-hint">or click to select files</p>
+                                    <input type="file" id="file-input" multiple hidden>
+                                </div>
+                            </div>
+                            <div class="file-list" id="file-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Bulk Processing Tab -->
+                    <div id="bulk" class="tab-pane">
+                        <div class="form-section">
+                            <h3>Bulk Operations</h3>
+                            <p class="feature-description">
+                                Process multiple files simultaneously with multithreading support.
+                                Ideal for encrypting large datasets or multiple documents.
+                            </p>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <h4>Available Threads</h4>
+                                    <span class="stat-value" id="thread-count">8</span>
+                                </div>
+                                <div class="stat-card">
+                                    <h4>Queue Size</h4>
+                                    <span class="stat-value" id="queue-size">0</span>
+                                </div>
+                                <div class="stat-card">
+                                    <h4>Processed</h4>
+                                    <span class="stat-value" id="processed-count">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-info">
+                <h3>Supported Algorithms</h3>
+                <div class="algorithm-grid">
+                    <div class="algorithm-card">
+                        <h4>AES (Advanced Encryption Standard)</h4>
+                        <p>Industry standard with 128/192/256-bit keys</p>
+                        <div class="algorithm-features">
+                            <span class="feature-tag">✓ Multithreading</span>
+                            <span class="feature-tag">✓ Multiple Modes</span>
+                            <span class="feature-tag">✓ Progress Tracking</span>
+                        </div>
+                    </div>
+                    <div class="algorithm-card">
+                        <h4>XOR Cipher</h4>
+                        <p>Simple and fast encryption for basic use cases</p>
+                        <div class="algorithm-features">
+                            <span class="feature-tag">✓ Lightweight</span>
+                            <span class="feature-tag">✓ Fast</span>
+                        </div>
+                    </div>
+                    <div class="algorithm-card coming-soon">
+                        <h4>ChaCha20</h4>
+                        <p>Modern stream cipher with excellent performance</p>
+                        <div class="algorithm-features">
+                            <span class="feature-tag coming-soon">Coming Soon</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Universal Encryption Tool. Built with modern cryptographic standards.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
